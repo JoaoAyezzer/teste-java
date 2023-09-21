@@ -21,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Pessoa implements Serializable {
+public class Person implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -29,14 +29,14 @@ public class Pessoa implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @NotBlank(message = "o campo 'nome' é obrigatório")
-    private String nome;
+    private String name;
     @Column(unique = true)
     @CPF(message = "o campo 'cpf' deve ser um cpf válido")
     private String cpf;
     @NotNull(message = "o campo 'dataNascimento' é obrigatório")
-    private LocalDate dataNascimento;
+    private LocalDate dateBirth;
     @NotEmpty(message = "a pessoa deve ter ao menos um contato")
     @OneToMany(mappedBy = "pessoa", fetch = FetchType.EAGER)
-    private List<Contato> contatos;
+    private List<Contact> contacts;
 
 }

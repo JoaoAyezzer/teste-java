@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Contato implements Serializable {
+public class Contact implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -26,13 +26,13 @@ public class Contato implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @NotBlank(message = "o campo 'nome' é obrigatório")
-    private String nome;
+    private String name;
     @NotBlank(message = "o campo 'telefone' é obrigatório")
-    private String telefone;
+    private String fone;
     @Email(message = "o email deve ser um email válido")
     private String email;
     @ManyToOne
     @JoinColumn
     @JsonIgnore
-    private Pessoa pessoa;
+    private Person person;
 }

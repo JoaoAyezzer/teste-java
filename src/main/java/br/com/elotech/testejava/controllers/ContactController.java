@@ -1,6 +1,6 @@
 package br.com.elotech.testejava.controllers;
 
-import br.com.elotech.testejava.services.ContatoService;
+import br.com.elotech.testejava.services.ContactService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,11 @@ import java.util.UUID;
 
 @Service
 @RestController
-@RequestMapping(value = "contatos")
+@RequestMapping(value = "contact")
 @RequiredArgsConstructor
-public class    ContatoController {
+public class ContactController {
 
-    private final ContatoService service;
+    private final ContactService service;
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteContatoById(@PathVariable UUID id){

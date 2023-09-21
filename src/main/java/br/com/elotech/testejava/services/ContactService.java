@@ -1,9 +1,9 @@
 package br.com.elotech.testejava.services;
 
 import br.com.elotech.testejava.exceptions.DataIntegrityException;
-import br.com.elotech.testejava.models.Contato;
-import br.com.elotech.testejava.models.Pessoa;
-import br.com.elotech.testejava.repositories.ContatoRepository;
+import br.com.elotech.testejava.models.Contact;
+import br.com.elotech.testejava.models.Person;
+import br.com.elotech.testejava.repositories.ContactRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +12,15 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ContatoService {
+public class ContactService {
 
 
-    private final ContatoRepository repository;
+    private final ContactRepository repository;
 
-    public void saveAllContatos(List<Contato> contatoList, Pessoa pessoa){
+    public void saveAllContatos(List<Contact> contactList, Person person){
         try {
-            contatoList.forEach(contato -> contato.setPessoa(pessoa));
-            repository.saveAll(contatoList);
+            contactList.forEach(contact -> contact.setPerson(person));
+            repository.saveAll(contactList);
         }catch (Exception e){
             throw new DataIntegrityException("Erro ao Cadastrar os contatos", e);
         }

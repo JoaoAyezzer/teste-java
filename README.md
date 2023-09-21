@@ -62,36 +62,36 @@ A API oferece os seguintes endpoints:
 ### Pessoas
 
 - **Listar todas as pessoas**: `GET /pessoas`
-- **Obter uma pessoa por ID**: `GET /pessoas/{id}`
-- **Criar uma nova pessoa com pelo menos um contato**: `POST /pessoas`
-- **Atualizar uma pessoa existente**: `PUT /pessoas`
-- **Excluir uma pessoa**: `DELETE /pessoas/{id}`
+- **Obter uma person por ID**: `GET /pessoas/{id}`
+- **Criar uma nova person com pelo menos um contact**: `POST /pessoas`
+- **Atualizar uma person existente**: `PUT /pessoas`
+- **Excluir uma person**: `DELETE /pessoas/{id}`
 
 ### Contatos
-- **Excluir um contato de uma pessoa**: `DELETE /contatos/{id}`
+- **Excluir um contact de uma person**: `DELETE /contatos/{id}`
 
 ## Estrutura das Entidades
 
 ### Pessoa
 
-- **id**: Identificador único da pessoa (UUID).
-- **nome**: Nome da pessoa.
-- **cpf**: CPF da pessoa.
-- **dataNascimento**: Data de nascimento da pessoa.
-- **contatos**: Lista de contatos da pessoa (relação OneToMany).
+- **id**: Identificador único da person (UUID).
+- **nome**: Nome da person.
+- **cpf**: CPF da person.
+- **dataNascimento**: Data de nascimento da person.
+- **contatos**: Lista de contatos da person (relação OneToMany).
 
 ### Contato
 
-- **id**: Identificador único do contato (UUID).
-- **nome**: Nome do contato.
-- **telefone**: Número de telefone do contato.
-- **email**: Endereço de e-mail do contato.
+- **id**: Identificador único do contact (UUID).
+- **nome**: Nome do contact.
+- **telefone**: Número de telefone do contact.
+- **email**: Endereço de e-mail do contact.
 
 ## Exemplo de Requisições e Respostas
 
 Aqui estão alguns exemplos de requisições e respostas:
 
-### Criar uma nova pessoa com pelo menos um contato
+### Criar uma nova person com pelo menos um contact
 
 - **Requisição**: POST /api/pessoas
 

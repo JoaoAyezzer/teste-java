@@ -1,12 +1,14 @@
 package br.com.elotech.testejava.repositories;
 
-import br.com.elotech.testejava.models.Contato;
+import br.com.elotech.testejava.models.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ContatoRepository extends JpaRepository<Contato, UUID> {
+public interface PersonRepository extends JpaRepository<Person, UUID> {
+    Optional<Person> findByCpf(String cpf);
+
 }

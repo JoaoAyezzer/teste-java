@@ -1,8 +1,8 @@
 package br.com.elotech.testejava.controllers;
 
-import br.com.elotech.testejava.models.Contato;
-import br.com.elotech.testejava.models.Pessoa;
-import br.com.elotech.testejava.services.PessoaService;
+import br.com.elotech.testejava.models.Contact;
+import br.com.elotech.testejava.models.Person;
+import br.com.elotech.testejava.services.PersonService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,108 +25,108 @@ import java.util.UUID;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @ExtendWith(MockitoExtension.class)
-public class PessoaControllerTest {
+public class PersonControllerTest {
 
     @InjectMocks
-    PessoaController pessoaController;
+    PersonController personController;
 
     @Mock
-    PessoaService pessoaService;
+    PersonService personService;
 
     MockMvc mockMvc;
-    private Pessoa pessoa;
+    private Person person;
     private UUID id;
 
 
     @BeforeEach
     public void setUp(){
         mockMvc = MockMvcBuilders
-                .standaloneSetup(pessoaController)
+                .standaloneSetup(personController)
                 .alwaysDo(print())
                 .build();
-        var contato = Contato
+        var contato = Contact
                 .builder()
-                .nome("Diane")
-                .telefone("44998999116")
+                .name("Diane")
+                .fone("44998999116")
                 .email("mockemail@gmail.com")
                 .build();
-        pessoa = Pessoa
+        person = Person
                 .builder()
-                .nome("Joao Ayezzer")
+                .name("Joao Ayezzer")
                 .cpf("17013265071")
-                .dataNascimento(LocalDate.of(1994,3,3))
-                .contatos(Collections.singletonList(contato))
+                .dateBirth(LocalDate.of(1994,3,3))
+                .contacts(Collections.singletonList(contato))
                 .build();
         id = UUID.randomUUID();
     }
 
     @Test
     void deveCadastrarPessoaComSucesso() throws Exception {
-        Mockito.when(pessoaService.savePessoa(pessoa)).thenReturn(pessoa);
+        Mockito.when(personService.savePessoa(person)).thenReturn(person);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/pessoas")
-                        .content(converteObjetoEmJsonString(pessoa))
+        mockMvc.perform(MockMvcRequestBuilders.post("/person")
+                        .content(converteObjetoEmJsonString(person))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
-        Mockito.verify(pessoaService).savePessoa(pessoa);
-        Mockito.verifyNoMoreInteractions(pessoaService);
+        Mockito.verify(personService).savePessoa(person);
+        Mockito.verifyNoMoreInteractions(personService);
 
     }
     @Test
     void deveBuscarPessoaPorIdComSucesso() throws Exception {
-        pessoa.setId(id);
-        pessoa.getContatos().forEach(contato -> contato.setId(UUID.randomUUID()));
+        person.setId(id);
+        person.getContacts().forEach(contact -> contact.setId(UUID.randomUUID()));
 
-        Mockito.when(pessoaService.getPessoaById(id)).thenReturn(pessoa);
+        Mockito.when(personService.getPessoaById(id)).thenReturn(person);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(String.format("/pessoas/%s", id))
+        mockMvc.perform(MockMvcRequestBuilders.get(String.format("/person/%s", id))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        Mockito.verify(pessoaService).getPessoaById(id);
-        Mockito.verifyNoMoreInteractions(pessoaService);
+        Mockito.verify(personService).getPessoaById(id);
+        Mockito.verifyNoMoreInteractions(personService);
 
     }
     @Test
     void deveBuscarPessoaPorCpfComSucesso() throws Exception {
-        pessoa.setId(id);
-        pessoa.getContatos().forEach(contato -> contato.setId(UUID.randomUUID()));
+        person.setId(id);
+        person.getContacts().forEach(contact -> contact.setId(UUID.randomUUID()));
 
-        Mockito.when(pessoaService.getPessoaByCpf(pessoa.getCpf())).thenReturn(pessoa);
+        Mockito.when(personService.getPessoaByCpf(person.getCpf())).thenReturn(person);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(String.format("/pessoas/cpf/%s", pessoa.getCpf()))
+        mockMvc.perform(MockMvcRequestBuilders.get(String.format("/person/cpf/%s", person.getCpf()))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        Mockito.verify(pessoaService).getPessoaByCpf(pessoa.getCpf());
-        Mockito.verifyNoMoreInteractions(pessoaService);
+        Mockito.verify(personService).getPessoaByCpf(person.getCpf());
+        Mockito.verifyNoMoreInteractions(personService);
 
     }
     @Test
     void deveAtualizarPessoaComSucesso() throws Exception {
-        pessoa.setId(id);
-        pessoa.getContatos().forEach(contato -> contato.setId(UUID.randomUUID()));
-        System.out.println(pessoa);
-        Mockito.doNothing().when(pessoaService).updatePessoa(pessoa);
+        person.setId(id);
+        person.getContacts().forEach(contact -> contact.setId(UUID.randomUUID()));
+        System.out.println(person);
+        Mockito.doNothing().when(personService).updatePessoa(person);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/pessoas")
-                        .content(converteObjetoEmJsonString(pessoa))
+        mockMvc.perform(MockMvcRequestBuilders.put("/person")
+                        .content(converteObjetoEmJsonString(person))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
-        Mockito.verify(pessoaService).updatePessoa(pessoa);
-        Mockito.verifyNoMoreInteractions(pessoaService);
+        Mockito.verify(personService).updatePessoa(person);
+        Mockito.verifyNoMoreInteractions(personService);
 
     }
     @Test
     void deveDeletarPessoaPorIdComSucesso() throws Exception {
-        pessoa.setId(id);
-        pessoa.getContatos().forEach(contato -> contato.setId(UUID.randomUUID()));
+        person.setId(id);
+        person.getContacts().forEach(contact -> contact.setId(UUID.randomUUID()));
 
-        Mockito.doNothing().when(pessoaService).deletePessoaById(id);
+        Mockito.doNothing().when(personService).deletePessoaById(id);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/pessoas/%s", id))
+        mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/person/%s", id))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
-        Mockito.verify(pessoaService).deletePessoaById(id);
-        Mockito.verifyNoMoreInteractions(pessoaService);
+        Mockito.verify(personService).deletePessoaById(id);
+        Mockito.verifyNoMoreInteractions(personService);
 
     }
     public static String converteObjetoEmJsonString(final Object obj) {

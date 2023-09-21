@@ -1,7 +1,7 @@
 package br.com.elotech.testejava.controllers;
 
-import br.com.elotech.testejava.models.Pessoa;
-import br.com.elotech.testejava.services.PessoaService;
+import br.com.elotech.testejava.models.Person;
+import br.com.elotech.testejava.services.PersonService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,15 +13,15 @@ import java.net.URI;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "pessoas")
+@RequestMapping(value = "person")
 @RequiredArgsConstructor
-public class PessoaController {
+public class PersonController {
 
-    private final PessoaService service;
+    private final PersonService service;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid Pessoa pessoaRequest){
-        var pessoa = service.savePessoa(pessoaRequest);
+    public ResponseEntity<Void> create(@RequestBody @Valid Person personRequest){
+        var pessoa = service.savePessoa(personRequest);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(pessoa.getId())
@@ -29,20 +29,20 @@ public class PessoaController {
         return ResponseEntity.created(uri).build();
     }
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Pessoa> getPessoaById(@PathVariable UUID id){
+    public ResponseEntity<Person> getPessoaById(@PathVariable UUID id){
         return ResponseEntity.ok(service.getPessoaById(id));
     }
     @GetMapping(value = "cpf/{cpf}")
-    public ResponseEntity<Pessoa> getPessoaByCpf(@PathVariable String cpf){
+    public ResponseEntity<Person> getPessoaByCpf(@PathVariable String cpf){
         return ResponseEntity.ok(service.getPessoaByCpf(cpf));
     }
     @PutMapping
-    public ResponseEntity<Void> updatePessoa(@RequestBody Pessoa pessoa){
-        service.updatePessoa(pessoa);
+    public ResponseEntity<Void> updatePessoa(@RequestBody Person person){
+        service.updatePessoa(person);
         return ResponseEntity.noContent().build();
     }
     @GetMapping
-    public ResponseEntity<Page<Pessoa>> findPessoaPerPage(
+    public ResponseEntity<Page<Person>> findPessoaPerPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
             @RequestParam(value="orderBy", defaultValue="nome") String orderBy,
