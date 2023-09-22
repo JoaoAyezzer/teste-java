@@ -1,5 +1,6 @@
 package br.com.elotech.testejava.services;
 
+import br.com.elotech.testejava.dtos.PersonDTO;
 import br.com.elotech.testejava.exceptions.DataIntegrityException;
 import br.com.elotech.testejava.exceptions.ObjectNotfoundException;
 import br.com.elotech.testejava.models.Person;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -63,5 +65,13 @@ public class PersonService {
     public Page<Person> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return repository.findAll(pageRequest);
+    }
+
+    public List<PersonDTO> findAll() {
+        try {
+            return repository.findAll().stream().map(PersonDTO::new).toList();
+        }catch (Exception e){
+            throw new ObjectNotfoundException("Ocorreu um erro ao buscar pessoas.");
+        }
     }
 }

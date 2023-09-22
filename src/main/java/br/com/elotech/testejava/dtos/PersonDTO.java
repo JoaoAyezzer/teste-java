@@ -1,6 +1,6 @@
-package br.com.elotech.testejava.models;
+package br.com.elotech.testejava.dtos;
 
-import jakarta.persistence.*;
+import br.com.elotech.testejava.models.Person;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -10,33 +10,31 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class Person implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+@Builder
+public class PersonDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @NotBlank(message = "o campo 'nome' é obrigatório")
     private String name;
-    @Column(unique = true)
     @CPF(message = "o campo 'cpf' deve ser um cpf válido")
     private String cpf;
     @NotNull(message = "o campo 'dataNascimento' é obrigatório")
     private LocalDate dateBirth;
     @NotEmpty(message = "a pessoa deve ter ao menos um contato")
-    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
-    private List<Contact> contacts;
+    private List<ContactDTO> contacts;
 
+    public PersonDTO(Person person) {
+        this.id = person.getId();
+        this.name = person.getName();
+        this.cpf = person.getCpf();
+        this.dateBirth = person.getDateBirth();
+        this.contacts = person.getContacts().stream().map(ContactDTO::new).toList();
+    }
 }

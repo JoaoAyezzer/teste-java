@@ -1,5 +1,6 @@
 package br.com.elotech.testejava.controllers;
 
+import br.com.elotech.testejava.dtos.PersonDTO;
 import br.com.elotech.testejava.models.Person;
 import br.com.elotech.testejava.services.PersonService;
 import jakarta.validation.Valid;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -48,6 +50,10 @@ public class PersonController {
             @RequestParam(value="orderBy", defaultValue="nome") String orderBy,
             @RequestParam(value="direction", defaultValue="ASC") String direction) {
         return ResponseEntity.ok().body(service.findPage(page, linesPerPage, orderBy, direction));
+    }
+    @GetMapping(value = "all")
+    public ResponseEntity<List<PersonDTO>> findAll(){
+        return ResponseEntity.ok(service.findAll());
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePessoaById(@PathVariable UUID id){
